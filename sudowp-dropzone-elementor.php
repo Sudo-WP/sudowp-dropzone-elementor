@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: SudoWP DropZone for Elementor (Security Fork)
- * Plugin URI:  https://github.com/Sudo-WP/dropzone-elementor-sudowp
+ * Plugin URI:  https://github.com/Sudo-WP/sudowp-dropzone-elementor
  * Description: A secure, community-maintained fork of "Startklar Elementor Addons". Patches critical Directory Traversal (CVE-2024-5153) and Arbitrary File Upload vulnerabilities.
  * Version:     1.7.16
  * Author:      SudoWP (Maintained by WP Republic)
  * Author URI:  https://sudowp.com
- * Text Domain: dropzone-elementor-sudowp
+ * Text Domain: sudowp-dropzone-elementor
  * License:     GPLv2 or later
  * * Original Plugin: Startklar Elementor Addons
  */
@@ -20,9 +20,11 @@ namespace StartklarElmentorFormsExtWidgets;
 use StartklarElmentorFormsExtWidgets\StartklarCountruySelectorFormField;
 
 add_filter('plugin_row_meta', function ($plugin_meta, $plugin_file) {
-    if (strpos($plugin_file, 'dropzone-elementor-sudowp.php') !== false) {
+    // UPDATED: Check for the new filename
+    if (strpos($plugin_file, 'sudowp-dropzone-elementor.php') !== false) {
         $new_links = array(
-            '<a href="https://github.com/Sudo-WP/dropzone-elementor-sudowp/issues" target="_blank">Report Issue</a>',
+            // UPDATED: New GitHub URL format
+            '<a href="https://github.com/Sudo-WP/sudowp-dropzone-elementor/issues" target="_blank">Report Issue</a>',
             '<a href="https://sudowp.com" target="_blank">SudoWP Project</a>',
         );
         $plugin_meta = array_merge($plugin_meta, $new_links);
@@ -99,7 +101,8 @@ add_action('plugins_loaded', function () {
     // Admin menu settings
     if (is_admin()) {
         add_action('admin_menu', function () {
-            add_options_page('SudoWP DropZone', 'SudoWP DropZone', 'manage_options', 'dropzone-elementor-sudowp', function () {
+            // UPDATED: Menu Slug
+            add_options_page('SudoWP DropZone', 'SudoWP DropZone', 'manage_options', 'sudowp-dropzone-elementor', function () {
                 // Simple settings page check
                 if (!current_user_can('manage_options')) {
                     return;
