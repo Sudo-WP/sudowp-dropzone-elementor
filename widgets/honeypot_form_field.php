@@ -23,7 +23,7 @@ class StartklarHoneyPotFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
      */
     public function __construct() {
         parent::__construct();
-        load_theme_textdomain( 'startklar-elmentor-forms-extwidgets', __DIR__. '/../lang' );
+        load_theme_textdomain( 'sudowp-dropzone-elementor', __DIR__. '/../lang' );
         add_action( 'wp_footer', [ $this, 'drawStartklarHoneyPotJsScript' ] );
         add_action( 'wp_head', [ $this, 'StartklarHoneyPotStyles']);
         parent::__construct();
@@ -44,7 +44,7 @@ class StartklarHoneyPotFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
      */
     public function get_name()
     {
-        return __('Startklar HoneyPot', 'startklar-elmentor-forms-extwidgets');
+        return __('Startklar HoneyPot', 'sudowp-dropzone-elementor');
     }
 
 
@@ -89,7 +89,7 @@ EOT;
     public function validation($field, Classes\Form_Record $record, Classes\Ajax_Handler $ajax_handler  ) {
         $id = $field['id'];
         if ( isset($field['raw_value']) &&  !empty($field['raw_value'])) {
-            $ajax_handler->add_error($id, __('This signature field is required.', 'startklar-elmentor-forms-extwidgets'));
+            $ajax_handler->add_error($id, __('This signature field is required.', 'sudowp-dropzone-elementor'));
         }else{
             //If success - remove the field form list (don't send it in emails and etc )
             $record->remove_field( $field['id'] );

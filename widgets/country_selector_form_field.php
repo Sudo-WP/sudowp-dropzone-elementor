@@ -22,7 +22,7 @@ class StartklarCountruySelectorFormField extends Field_Base
         add_action('elementor/element/form/section_form_style/after_section_end', [$this, 'add_control_section_to_form'], 10, 2);
         wp_enqueue_script('select2_min', plugin_dir_url(__DIR__) . 'assets/country_selector/select2.min.js', array('jquery'), false, true);
         wp_enqueue_style("startklar_select2_styles", plugin_dir_url(__DIR__) . "assets/country_selector/select2.min.css");
-        load_theme_textdomain('startklar-elmentor-forms-extwidgets', __DIR__ . '/../lang');
+        load_theme_textdomain('sudowp-dropzone-elementor', __DIR__ . '/../lang');
     }
 
     public function get_type()
@@ -32,7 +32,7 @@ class StartklarCountruySelectorFormField extends Field_Base
 
     public function get_name()
     {
-        return __('Phone number prefix', 'startklar-elmentor-forms-extwidgets');
+        return __('Phone number prefix', 'sudowp-dropzone-elementor');
     }
 
     public function add_control_section_to_form($element, $args)
@@ -40,7 +40,7 @@ class StartklarCountruySelectorFormField extends Field_Base
         $element->start_controls_section(
             'dce_section_signature_buttons_style',
             [
-                'label' => __('Phone number prefix selector', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Phone number prefix selector', 'sudowp-dropzone-elementor'),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -49,7 +49,7 @@ class StartklarCountruySelectorFormField extends Field_Base
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name' => 'dce_typography_signature',
-                'label' => __('Typography', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Typography', 'sudowp-dropzone-elementor'),
                 'selector' => '{{WRAPPER}} .select2-container .select2-selection, .select2-container .select2-results__option',
             ]
         );
@@ -57,7 +57,7 @@ class StartklarCountruySelectorFormField extends Field_Base
         $element->add_control(
             'dce_background_color_signature',
             [
-                'label' => __('Background Color', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Background Color', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .select2-container .select2-selection, .select2-container .select2-dropdown' => 'background-color: {{VALUE}};',
@@ -68,7 +68,7 @@ class StartklarCountruySelectorFormField extends Field_Base
         $element->add_control(
             'dce_text_color_signature',
             [
-                'label' => __('Text Color', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Text Color', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .select2-container .select2-selection, .select2-container .select2-results__option' => 'color: {{VALUE}};',
@@ -79,10 +79,10 @@ class StartklarCountruySelectorFormField extends Field_Base
         $element->add_control(
             'dce_hide_scrollbar_signature',
             [
-                'label' => __('Hide Scrollbar', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Hide Scrollbar', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::SWITCHER,
-                'label_on' => __('Yes', 'startklar-elmentor-forms-extwidgets'),
-                'label_off' => __('No', 'startklar-elmentor-forms-extwidgets'),
+                'label_on' => __('Yes', 'sudowp-dropzone-elementor'),
+                'label_off' => __('No', 'sudowp-dropzone-elementor'),
                 'return_value' => 'Yes',
                 'default' => 'No',
                 'selectors' => [
@@ -94,10 +94,10 @@ class StartklarCountruySelectorFormField extends Field_Base
         $element->add_control(
             'dce_use_with_popup',
             [
-                'label' => __('Use with popup', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Use with popup', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::SWITCHER,
-                'label_on' => __('Yes', 'startklar-elmentor-forms-extwidgets'),
-                'label_off' => __('No', 'startklar-elmentor-forms-extwidgets'),
+                'label_on' => __('Yes', 'sudowp-dropzone-elementor'),
+                'label_off' => __('No', 'sudowp-dropzone-elementor'),
                 'return_value' => 'Yes',
                 'default' => 'No',
                 'selectors' => [
@@ -128,7 +128,7 @@ class StartklarCountruySelectorFormField extends Field_Base
                 $t_val = "(" . $country['phone_code'] . ") ";
                 $country_name = $country['country_name_en'];
                 $default_value_options[$country_name] = $t_val . __($country['country_name_en'],
-                        "startklar-elmentor-forms-extwidgets");
+                        "sudowp-dropzone-elementor");
             }
         }
         $temp = 0;
@@ -136,14 +136,14 @@ class StartklarCountruySelectorFormField extends Field_Base
         $field_controls = [
             'phone_numb_format' => [
                 'name' => 'phone_numb_format',
-                'label' => esc_html__('Format +XX or 00XX', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Format +XX or 00XX', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'condition' => ['field_type' => $this->get_type()],
                 'default' => '',
                 'options' => [
-                    '' => esc_html__('(+XX)', 'startklar-elmentor-forms-extwidgets'),
-                    'clean_format' => esc_html__('+XX', 'startklar-elmentor-forms-extwidgets'),
-                    'old_format' => esc_html__('(00XX)', 'startklar-elmentor-forms-extwidgets'),
+                    '' => esc_html__('(+XX)', 'sudowp-dropzone-elementor'),
+                    'clean_format' => esc_html__('+XX', 'sudowp-dropzone-elementor'),
+                    'old_format' => esc_html__('(00XX)', 'sudowp-dropzone-elementor'),
                 ],
 
                 'tab' => 'content',
@@ -154,15 +154,15 @@ class StartklarCountruySelectorFormField extends Field_Base
 
             'display_composition' => [
                 'name' => 'display_composition',
-                'label' => esc_html__('Display Composition', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Display Composition', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'condition' => ['field_type' => $this->get_type()],
                 'default' => 'name_flag',
                 'options' => [
-                    'name_flag' => esc_html__('name and flag', 'startklar-elmentor-forms-extwidgets'),
-                    'flag_only' => esc_html__('flag only', 'startklar-elmentor-forms-extwidgets'),
-                    'name_only' => esc_html__('name only', 'startklar-elmentor-forms-extwidgets'),
-                    'code only' => esc_html__('code only', 'startklar-elmentor-forms-extwidgets'),
+                    'name_flag' => esc_html__('name and flag', 'sudowp-dropzone-elementor'),
+                    'flag_only' => esc_html__('flag only', 'sudowp-dropzone-elementor'),
+                    'name_only' => esc_html__('name only', 'sudowp-dropzone-elementor'),
+                    'code only' => esc_html__('code only', 'sudowp-dropzone-elementor'),
                 ],
 
                 'tab' => 'content',
@@ -172,7 +172,7 @@ class StartklarCountruySelectorFormField extends Field_Base
 
             'default_value' => [
                 'name' => 'default_value',
-                'label' => esc_html__('Default Value', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Default Value', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::SELECT2,
                 'label_block' => true,
                 'multiple' => false,
@@ -222,7 +222,7 @@ class StartklarCountruySelectorFormField extends Field_Base
 
     public function getPageHeadersData()
     {
-        load_theme_textdomain('startklar-elmentor-forms-extwidgets', __DIR__ . '/../languages');
+        load_theme_textdomain('sudowp-dropzone-elementor', __DIR__ . '/../languages');
 
         $rend_html = '<option selected value></option>';
         $content = file_get_contents(__DIR__ . '/../assets/country_selector/countries_arr.json');
@@ -242,7 +242,7 @@ class StartklarCountruySelectorFormField extends Field_Base
                 $temp = "(" . $country['phone_code'] . ") ";
             }
 
-            $t_val = $temp . "<span class='country_name'>" . __($country['country_name_en'], "startklar-elmentor-forms-extwidgets") . "</span>";
+            $t_val = $temp . "<span class='country_name'>" . __($country['country_name_en'], "sudowp-dropzone-elementor") . "</span>";
 
             $selected = '';
 

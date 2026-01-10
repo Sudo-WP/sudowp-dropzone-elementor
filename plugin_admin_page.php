@@ -9,10 +9,10 @@ class StartklarPluginAdminPage {
 
     function startklar_admin_menu() {
         add_menu_page(
-            __( 'Easy Elementor Addons', "startklar-elmentor-forms-extwidgets" ),
-            __( 'Easy Elementor Addons', "startklar-elmentor-forms-extwidgets" ),
+            __( 'Easy Elementor Addons', "sudowp-dropzone-elementor" ),
+            __( 'Easy Elementor Addons', "sudowp-dropzone-elementor" ),
             'manage_options',
-            'startklar-elmentor-forms-extwidgets',
+            'sudowp-dropzone-elementor',
             array( $this, 'startKlarElmentorFormsWidgetsPluginAdminPage' ),
             plugin_dir_url(__FILE__).'startklar_logo.png',
             100
@@ -21,7 +21,7 @@ class StartklarPluginAdminPage {
 
     function startKlarElmentorFormsWidgetsPluginAdminPage(){
 
-        load_theme_textdomain( 'startklar-elmentor-forms-extwidgets', __DIR__. '/languages' );
+        load_theme_textdomain( 'sudowp-dropzone-elementor', __DIR__. '/languages' );
         $default_tab = null;
         if (isset($_GET['tab']) && !empty($_GET['tab'])) {
             $tab = sanitize_text_field($_GET['tab']);
@@ -62,12 +62,12 @@ class StartklarPluginAdminPage {
 
             <!-- Here are our tabs -->
             <nav class="nav-tab-wrapper">
-                <a href="?page=startklar-elmentor-forms-extwidgets" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">
-                    <?php echo __( 'Phone Number Prefix Forms Field', "startklar-elmentor-forms-extwidgets" ) ?>
+                <a href="?page=sudowp-dropzone-elementor" class="nav-tab <?php if($tab===null):?>nav-tab-active<?php endif; ?>">
+                    <?php echo __( 'Phone Number Prefix Forms Field', "sudowp-dropzone-elementor" ) ?>
                 </a>
 
-                <a href="?page=startklar-elmentor-forms-extwidgets&tab=add_sett" class="nav-tab <?php if($tab==="add_sett"):?>nav-tab-active<?php endif; ?>">
-                    <?php echo __( 'Additional settings', "startklar-elmentor-forms-extwidgets" ) ?>
+                <a href="?page=sudowp-dropzone-elementor&tab=add_sett" class="nav-tab <?php if($tab==="add_sett"):?>nav-tab-active<?php endif; ?>">
+                    <?php echo __( 'Additional settings', "sudowp-dropzone-elementor" ) ?>
                 </a>
             </nav>
 
@@ -133,7 +133,7 @@ class StartklarPluginAdminPage {
             <form method="post">
                 <div class="tablenav top">
                     <div class="alignleft actions bulkactions">
-                        <input  style="min-width: 200px"  type="submit"  class="button-secondary"  value="<?php   echo __("Save", "startklar-elmentor-forms-extwidgets")  ?>"/>
+                        <input  style="min-width: 200px"  type="submit"  class="button-secondary"  value="<?php   echo __("Save", "sudowp-dropzone-elementor")  ?>"/>
                     </div>
                     <div>Drag and drop to reorder country options in the selector</div>
                     <br class="clear">
@@ -141,16 +141,16 @@ class StartklarPluginAdminPage {
                 <table class="widefat striped">
                     <thead>
                     <tr>
-                        <th><?php echo __("Delete", "startklar-elmentor-forms-extwidgets") ?></th>
-                        <th><?php echo __("Country name", "startklar-elmentor-forms-extwidgets") ?></th>
+                        <th><?php echo __("Delete", "sudowp-dropzone-elementor") ?></th>
+                        <th><?php echo __("Country name", "sudowp-dropzone-elementor") ?></th>
                         <td></td>
-                        <th><?php echo __("Flag file", "startklar-elmentor-forms-extwidgets") ?></th>
-                        <th><?php echo __("Phone code", "startklar-elmentor-forms-extwidgets") ?></th>
+                        <th><?php echo __("Flag file", "sudowp-dropzone-elementor") ?></th>
+                        <th><?php echo __("Phone code", "sudowp-dropzone-elementor") ?></th>
                     </tr>
                     </thead>
                     <tbody class="list">
                     <tr class="list-item" draggable="true">
-                        <td style="width:1%; white-space: nowrap;"><?php echo __("Insert new country", "startklar-elmentor-forms-extwidgets") ?></td>
+                        <td style="width:1%; white-space: nowrap;"><?php echo __("Insert new country", "sudowp-dropzone-elementor") ?></td>
                         <td  class="country_name">
                             <input type="text" name="country_arr[<?php echo esc_html($row_indx); ?>][country_name_en]" value=""/>
                         </td>
@@ -209,7 +209,7 @@ class StartklarPluginAdminPage {
                 </table>
                 <div class="tablenav top">
                     <div class="alignleft actions bulkactions">
-                        <input style="min-width: 200px" type="submit"  class="button-secondary"  value="<?php   echo __("Save", "startklar-elmentor-forms-extwidgets")  ?>"/>
+                        <input style="min-width: 200px" type="submit"  class="button-secondary"  value="<?php   echo __("Save", "sudowp-dropzone-elementor")  ?>"/>
                     </div>
                     <br class="clear">
                 </div>
@@ -270,7 +270,7 @@ class StartklarPluginAdminPage {
                 <input type="hidden"  name="startklar_options[update_at]"  value="<?php echo date("d-m-Y H:i:s") ?>">
                 <div class="tablenav top">
                     <div class="alignleft actions bulkactions">
-                        <input  style="min-width: 200px"  type="submit"  class="button-secondary"  value="<?php   echo __("Save", "startklar-elmentor-forms-extwidgets")  ?>"/>
+                        <input  style="min-width: 200px"  type="submit"  class="button-secondary"  value="<?php   echo __("Save", "sudowp-dropzone-elementor")  ?>"/>
                     </div>
                     <br class="clear">
                 </div>
@@ -279,7 +279,7 @@ class StartklarPluginAdminPage {
                     </thead>
                     <tbody class="list">
                         <tr class="list-item" draggable="true">
-                            <td style="width:1%; white-space: nowrap;"><?php echo __("Blocking PHP file upload", "startklar-elmentor-forms-extwidgets") ?></td>
+                            <td style="width:1%; white-space: nowrap;"><?php echo __("Blocking PHP file upload", "sudowp-dropzone-elementor") ?></td>
                             <td><input type="checkbox" name="startklar_options[blocking_php_file_upload]" value="true"
                                     <?php checked( $options['blocking_php_file_upload'], "true" ); ?>>  </td>
                         </tr>
@@ -287,7 +287,7 @@ class StartklarPluginAdminPage {
                 </table>
                 <div class="tablenav top">
                     <div class="alignleft actions bulkactions">
-                        <input style="min-width: 200px" type="submit"  class="button-secondary"  value="<?php   echo __("Save", "startklar-elmentor-forms-extwidgets")  ?>"/>
+                        <input style="min-width: 200px" type="submit"  class="button-secondary"  value="<?php   echo __("Save", "sudowp-dropzone-elementor")  ?>"/>
                     </div>
                     <br class="clear">
                 </div>

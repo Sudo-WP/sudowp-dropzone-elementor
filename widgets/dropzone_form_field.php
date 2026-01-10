@@ -18,7 +18,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
     {
         parent::__construct();
 
-        load_theme_textdomain('startklar-elmentor-forms-extwidgets', __DIR__ . '/../lang');
+        load_theme_textdomain('sudowp-dropzone-elementor', __DIR__ . '/../lang');
         add_filter("elementor_pro/forms/sanitize/drop_zone_form_field", [$this, 'sanitize_field'], 10, 2);
         add_action('wp_footer', [$this, 'drawDZJsScript']);
         add_action('wp_head', [$this, 'addDropzoneStyles']);
@@ -36,7 +36,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
 
     public function get_name()
     {
-        return __('DropZone (SudoWP Patched)', 'startklar-elmentor-forms-extwidgets');
+        return __('DropZone (SudoWP Patched)', 'sudowp-dropzone-elementor');
     }
 
     public function update_controls($widget)
@@ -49,7 +49,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
         $field_controls = [
             'files_amount' => [
                 'name' => 'files_amount',
-                'label' => __('Files amount', 'startklar-elmentor-forms-extwidgets'),
+                'label' => __('Files amount', 'sudowp-dropzone-elementor'),
                 'type' => \Elementor\Controls_Manager::NUMBER,
                 'tab' => 'content',
                 'inner_tab' => 'form_fields_content_tab',
@@ -64,7 +64,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
 
             'allowed_file_types_for_upload' => [
                 'name' => 'allowed_file_types_for_upload',
-                'label' => esc_html__('Allowed file types for upload (e.g. *.jpg, *.pdf)', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Allowed file types for upload (e.g. *.jpg, *.pdf)', 'sudowp-dropzone-elementor'),
                 'type' => Controls_Manager::TEXT,
                 'condition' => ['field_type' => $this->get_type()],
                 'tab' => 'content',
@@ -76,7 +76,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
 
             'maximum_upload_file' => [
                 'name' => 'maximum_upload_file',
-                'label' => esc_html__('Maximum upload file size (e.g. 2.5M)', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Maximum upload file size (e.g. 2.5M)', 'sudowp-dropzone-elementor'),
                 'type' => Controls_Manager::TEXT,
                 'condition' => ['field_type' => $this->get_type()],
                 'tab' => 'content',
@@ -89,7 +89,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
 
             'path_type' => [
                 'name' => 'path_type',
-                'label' => esc_html__('Forms data path type (output forms data)', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Forms data path type (output forms data)', 'sudowp-dropzone-elementor'),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
                     'url' => 'Url',
@@ -108,7 +108,7 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
 
             'button_message' => [
                 'name' => 'button_message',
-                'label' => esc_html__('Button Message', 'startklar-elmentor-forms-extwidgets'),
+                'label' => esc_html__('Button Message', 'sudowp-dropzone-elementor'),
                 'type' => Controls_Manager::TEXT,
                 'condition' => ['field_type' => $this->get_type()],
                 'tab' => 'content',
