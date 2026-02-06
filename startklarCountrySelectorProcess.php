@@ -4,17 +4,23 @@ use  TP_MaxMind\Db\Reader;
 
 class startklarCountrySelectorProcess {
     static public function process(){
+        // SECURITY: Verify nonce for CSRF protection
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'startklar_country_selector')) {
+            wp_send_json_error(['message' => __('Security check failed.', 'sudowp-dropzone-elementor')], 403);
+            exit;
+        }
+
         require_once(__DIR__ . "/lib/GeoLocator/src/autoload.php");
         $ret_arr = [];
 
         $remote_addr = $_SERVER["REMOTE_ADDR"];
 
-        if ($remote_addr == "::1") {
-            $ch = curl_init('https://httpbin.org/ip');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $response = curl_exec($ch);
-            $data = json_decode($response, true);
-            $remote_addr = $data['origin']; // This will give you the public IP address
+        // SECURITY FIX: Remove SSRF vulnerability - don't make external requests
+        // For localhost/development environments, use a safe default instead
+        if ($remote_addr == "::1" || $remote_addr == "127.0.0.1" || strpos($remote_addr, '192.168.') === 0 || strpos($remote_addr, '10.') === 0) {
+            // For local development, return empty result instead of making external request
+            echo json_encode([]);
+            exit;
         }
 
         if (!empty($remote_addr) && preg_match("/\d+.\d+.\d+.\d+/ism", $remote_addr, $matches)) {

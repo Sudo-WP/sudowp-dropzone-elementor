@@ -296,8 +296,11 @@ EOT;
     public function drawStartklarJsScript()
     {
         $site_abs_url = get_site_url();
+        $country_selector_nonce = wp_create_nonce('startklar_country_selector');
         ?>
         <script>
+            // Pass nonce to JavaScript for security
+            window.startklar_country_selector_nonce = '<?php echo esc_js($country_selector_nonce); ?>';
             testjstartklarCountrySelectorQueryExist();
 
             function testjstartklarCountrySelectorQueryExist() {
@@ -512,7 +515,13 @@ EOT;
 
             function getDetectedCountry() {
                 return new Promise((resolve, reject) => {
-                    jQuery.post("<?php echo $site_abs_url; ?>/wp-admin/admin-ajax.php?action=startklar_country_selector_process", function (data) {
+                    const postData = {};
+                    // Add nonce for security
+                    if (typeof window.startklar_country_selector_nonce !== 'undefined') {
+                        postData.nonce = window.startklar_country_selector_nonce;
+                    }
+                    
+                    jQuery.post("<?php echo esc_url($site_abs_url); ?>/wp-admin/admin-ajax.php?action=startklar_country_selector_process", postData, function (data) {
                         const data_country = data["country"];
                         let country_en = null;
 

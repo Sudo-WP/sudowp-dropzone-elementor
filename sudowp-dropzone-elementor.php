@@ -2,8 +2,8 @@
 /**
  * Plugin Name: SudoWP DropZone for Elementor (Security Fork)
  * Plugin URI:  https://github.com/Sudo-WP/sudowp-dropzone-elementor
- * Description: A secure, community-maintained fork of "Startklar Elementor Addons". Patches critical Directory Traversal (CVE-2024-5153) and Arbitrary File Upload vulnerabilities.
- * Version:     1.7.16
+ * Description: A secure, community-maintained fork of "Startklar Elementor Addons". Patches critical Directory Traversal (CVE-2024-5153), Arbitrary File Upload, CSRF, SSRF, and XSS vulnerabilities.
+ * Version:     1.7.17
  * Author:      SudoWP (Maintained by WP Republic)
  * Author URI:  https://sudowp.com
  * Text Domain: sudowp-dropzone-elementor
@@ -89,6 +89,7 @@ add_action('plugins_loaded', function () {
     require_once('widgets/dropzone_form_field.php');
     require_once('widgets/honeypot_handler.php');
     require_once('startklarDropZoneUploadProcess.php');
+    require_once('startklarCountrySelectorProcess.php');
 
     $startklar_countruy_selector_form_field = new StartklarCountruySelectorFormField();
     $startklar_dropzone_form_field = new StartklarDropzoneFormField();
@@ -97,6 +98,10 @@ add_action('plugins_loaded', function () {
     // Register Ajax action for Dropzone upload
     add_action('wp_ajax_startklar_drop_zone_upload_process', ['StartklarElmentorFormsExtWidgets\startklarDropZoneUploadProcess', 'process']);
     add_action('wp_ajax_nopriv_startklar_drop_zone_upload_process', ['StartklarElmentorFormsExtWidgets\startklarDropZoneUploadProcess', 'process']);
+
+    // Register Ajax action for Country Selector (SECURITY FIX: Added missing registration)
+    add_action('wp_ajax_startklar_country_selector_process', ['StartklarElmentorFormsExtWidgets\startklarCountrySelectorProcess', 'process']);
+    add_action('wp_ajax_nopriv_startklar_country_selector_process', ['StartklarElmentorFormsExtWidgets\startklarCountrySelectorProcess', 'process']);
 
     // Admin menu settings
     if (is_admin()) {
@@ -108,13 +113,18 @@ add_action('plugins_loaded', function () {
                     return;
                 }
                 
-                // Save settings
+                // Save settings with nonce verification (SECURITY FIX)
                 if (isset($_POST['startklar_options_submit'])) {
+                    // Verify nonce for CSRF protection
+                    if (!isset($_POST['sudowp_settings_nonce']) || !wp_verify_nonce($_POST['sudowp_settings_nonce'], 'sudowp_dropzone_settings')) {
+                        wp_die(__('Security check failed.', 'sudowp-dropzone-elementor'));
+                    }
+                    
                     $options = [
                         'blocking_php_file_upload' => isset($_POST['blocking_php_file_upload']) ? 'true' : 'false'
                     ];
                     update_option('startklar_options', $options);
-                    echo '<div class="updated"><p>Settings saved.</p></div>';
+                    echo '<div class="updated"><p>' . esc_html__('Settings saved.', 'sudowp-dropzone-elementor') . '</p></div>';
                 }
 
                 $options = get_option('startklar_options');
@@ -122,22 +132,23 @@ add_action('plugins_loaded', function () {
                 
                 ?>
                 <div class="wrap">
-                    <h1>SudoWP DropZone for Elementor (Security Fork)</h1>
-                    <p>This is a maintained fork by SudoWP. <a href="https://sudowp.com" target="_blank">Visit Project Page</a></p>
+                    <h1><?php echo esc_html__('SudoWP DropZone for Elementor (Security Fork)', 'sudowp-dropzone-elementor'); ?></h1>
+                    <p><?php echo wp_kses_post(__('This is a maintained fork by SudoWP. <a href="https://sudowp.com" target="_blank">Visit Project Page</a>', 'sudowp-dropzone-elementor')); ?></p>
                     <form method="post" action="">
+                        <?php wp_nonce_field('sudowp_dropzone_settings', 'sudowp_settings_nonce'); ?>
                         <table class="form-table">
                             <tr valign="top">
-                                <th scope="row">Security Hardening</th>
+                                <th scope="row"><?php echo esc_html__('Security Hardening', 'sudowp-dropzone-elementor'); ?></th>
                                 <td>
                                     <label>
                                         <input type="checkbox" name="blocking_php_file_upload" value="true" <?php echo $blocking_php; ?> disabled checked />
-                                        Block PHP File Uploads (Enforced by SudoWP Security Patch)
+                                        <?php echo esc_html__('Block PHP File Uploads (Enforced by SudoWP Security Patch)', 'sudowp-dropzone-elementor'); ?>
                                     </label>
-                                    <p class="description">This setting is now permanently enabled and enforced at the code level for your security.</p>
+                                    <p class="description"><?php echo esc_html__('This setting is now permanently enabled and enforced at the code level for your security.', 'sudowp-dropzone-elementor'); ?></p>
                                 </td>
                             </tr>
                         </table>
-                        <?php submit_button('Save Settings', 'primary', 'startklar_options_submit'); ?>
+                        <?php submit_button(esc_html__('Save Settings', 'sudowp-dropzone-elementor'), 'primary', 'startklar_options_submit'); ?>
                     </form>
                 </div>
                 <?php

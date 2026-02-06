@@ -196,10 +196,14 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
         $form->add_render_attribute('signature-wrapper' . $item_index,
             'id', 'dce-signature-wrapper-' . $form->get_attribute_name($item));
 
+        // SECURITY: Escape output to prevent XSS
+        $serialize_arr_escaped = esc_attr($serialize_arr);
+        $custom_id_escaped = esc_attr($item['custom_id']);
+        
         echo <<<EOT
         <div class="wrap_dropzone_container">
-            <div class="dropzone dropzone_container" data-serialize-arr='{$serialize_arr}'></div>
-            <input class="dropzone_hash"  type="hidden" name="form_fields[{$item['custom_id']}]" value='{$serialize_arr}'></input>
+            <div class="dropzone dropzone_container" data-serialize-arr='{$serialize_arr_escaped}'></div>
+            <input class="dropzone_hash"  type="hidden" name="form_fields[{$custom_id_escaped}]" value='{$serialize_arr_escaped}'></input>
         </div>
 EOT;
     }
@@ -297,7 +301,7 @@ EOT;
                 // Extra security: Re-validate file extension before final copy
                 $file_type = wp_check_filetype($file_name);
                 $ext = strtolower($file_type['ext']);
-                $forbidden = ['php', 'php5', 'php7', 'phtml', 'exe', 'sh'];
+                $forbidden = ['php', 'php5', 'php7', 'php8', 'phtml', 'phps', 'phar', 'exe', 'sh', 'pl', 'py', 'rb', 'cgi', 'bat', 'cmd', 'com', 'jar', 'jsp', 'asp', 'aspx', 'htaccess', 'svg', 'swf'];
                 if (in_array($ext, $forbidden) || !$ext) {
                     continue; // Skip dangerous files
                 }
@@ -358,9 +362,12 @@ EOT;
 
     public function drawDZJsScript()
     {
-        // ... (Javascript stays largely the same, no server-side security impact)
+        // Generate nonce for AJAX security
+        $dropzone_nonce = wp_create_nonce('startklar_dropzone_upload');
         ?>
         <script>
+            // Pass nonce to JavaScript
+            window.startklar_dropzone_nonce = '<?php echo esc_js($dropzone_nonce); ?>';
             testjStartklarDropZoneJQueryExist();
 
             function testjStartklarDropZoneJQueryExist() {
@@ -393,7 +400,7 @@ EOT;
                         elementorFrontend.hooks.addAction('frontend/element_ready/form.default', function () {
                             window.loop_cntr = 0;
 
-                            jQuery('head').append('<link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) ?>assets/dropzone/dropzone.min.css" type="text/css" />');
+                            jQuery('head').append('<link rel="stylesheet" href="<?php echo esc_url(plugin_dir_url(__DIR__)); ?>assets/dropzone/dropzone.min.css" type="text/css" />');
                             Dropzone.autoDiscover = false;
                             searchDropZoneContainer();
                         });
@@ -424,7 +431,7 @@ EOT;
                             settings = Object.assign(default_settings, settings);
 
                             jQuery(this).dropzone({
-                                url: "<?php  echo get_site_url(); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
+                                url: "<?php echo esc_url(get_site_url()); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
                                 addRemoveLinks: true,
                                 dictDefaultMessage: settings["button_message"],
                                 dictRemoveFile: '<i class="dashicons dashicons-no"></i>',
@@ -442,6 +449,10 @@ EOT;
                                         }
 
                                         appendUniqueHash();
+                                        // Add nonce for security
+                                        if (typeof window.startklar_dropzone_nonce !== 'undefined') {
+                                            formData.append('nonce', window.startklar_dropzone_nonce);
+                                        }
                                     });
                                 },
                                 removedfile: function (file) {
@@ -450,8 +461,19 @@ EOT;
                                     const json_obj = JSON.parse(input_val);
                                     const hash = json_obj["dropzone_hash"];
 
-                                    jQuery.post("<?php  echo get_site_url(); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
-                                        {mode: "remove", hash: hash, fileName: fileName},
+                                    const postData = {
+                                        mode: "remove", 
+                                        hash: hash, 
+                                        fileName: fileName
+                                    };
+                                    
+                                    // Add nonce for security
+                                    if (typeof window.startklar_dropzone_nonce !== 'undefined') {
+                                        postData.nonce = window.startklar_dropzone_nonce;
+                                    }
+
+                                    jQuery.post("<?php echo esc_url(get_site_url()); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
+                                        postData,
                                         function (data) {
                                         }
                                     );

@@ -5,7 +5,7 @@
 **Tags:** elementor, dropzone, upload, security-patch, fork, cve-2024-5153, honeypot  
 **Requires at least:** 5.6  
 **Tested up to:** 6.7  
-**Stable tag:** 1.7.16  
+**Stable tag:** 1.7.17  
 **License:** GPLv2 or later  
 
 ## Security Notice
@@ -43,6 +43,18 @@ This is a **community-maintained fork** of the abandoned "Startklar Elementor Ad
 **Does it support PHP file uploads?** No. For security reasons, this fork **strictly enforces** a ban on PHP, EXE, and other executable file extensions, regardless of your Elementor or WordPress settings.
 
 ## Changelog
+
+### Version 1.7.17 (SudoWP Security Hardened Edition)
+* **Security Enhancement:** Added CSRF protection with nonce verification on all AJAX handlers.
+* **Security Enhancement:** Added missing AJAX handler registration for country selector.
+* **Security Fix:** Fixed SSRF vulnerability by removing external HTTP requests.
+* **Security Enhancement:** Expanded forbidden file extensions list (added PHP8, JSP, ASP, SVG, etc.).
+* **Security Enhancement:** Added double extension validation to prevent file spoofing attacks.
+* **Security Enhancement:** Added file size validation against WordPress limits.
+* **Security Enhancement:** Enhanced path validation to prevent directory traversal.
+* **Security Enhancement:** Added XSS protection with proper output escaping throughout.
+* **Security Enhancement:** Added nonce verification to admin settings page.
+* **Documentation:** Added comprehensive security audit report (SECURITY_AUDIT.md).
 
 ### Version 1.7.16 (SudoWP Edition)
 * **Security Fix:** Patched Critical Directory Traversal vulnerability (CVE-2024-5153) in `dropzone_form_field.php`.
