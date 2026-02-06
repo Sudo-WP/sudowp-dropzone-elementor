@@ -25,7 +25,8 @@ class startklarDropZoneUploadProcess
              $file_info = wp_check_filetype_and_ext( $_FILES['file']['tmp_name'], $_FILES['file']['name'] );
              $ext = strtolower($file_info['ext']);
              $type = strtolower($file_info['type']);
-             $filename = $_FILES['file']['name'];
+             // SECURITY: Sanitize filename before use
+             $filename = sanitize_file_name($_FILES['file']['name']);
              
              // STRICT Deny List: Never allow these extensions, even if WP allows them.
              $forbidden_exts = ['php', 'php5', 'php7', 'php8', 'phtml', 'phar', 'phps', 'exe', 'sh', 'pl', 'py', 'rb', 'cgi', 'bat', 'cmd', 'com', 'jar', 'jsp', 'asp', 'aspx', 'htaccess', 'svg', 'swf'];
