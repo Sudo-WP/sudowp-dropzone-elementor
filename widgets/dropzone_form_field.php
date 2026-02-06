@@ -196,10 +196,14 @@ class StartklarDropzoneFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
         $form->add_render_attribute('signature-wrapper' . $item_index,
             'id', 'dce-signature-wrapper-' . $form->get_attribute_name($item));
 
+        // SECURITY: Escape output to prevent XSS
+        $serialize_arr_escaped = esc_attr($serialize_arr);
+        $custom_id_escaped = esc_attr($item['custom_id']);
+        
         echo <<<EOT
         <div class="wrap_dropzone_container">
-            <div class="dropzone dropzone_container" data-serialize-arr='{$serialize_arr}'></div>
-            <input class="dropzone_hash"  type="hidden" name="form_fields[{$item['custom_id']}]" value='{$serialize_arr}'></input>
+            <div class="dropzone dropzone_container" data-serialize-arr='{$serialize_arr_escaped}'></div>
+            <input class="dropzone_hash"  type="hidden" name="form_fields[{$custom_id_escaped}]" value='{$serialize_arr_escaped}'></input>
         </div>
 EOT;
     }
@@ -396,7 +400,7 @@ EOT;
                         elementorFrontend.hooks.addAction('frontend/element_ready/form.default', function () {
                             window.loop_cntr = 0;
 
-                            jQuery('head').append('<link rel="stylesheet" href="<?php echo plugin_dir_url(__DIR__) ?>assets/dropzone/dropzone.min.css" type="text/css" />');
+                            jQuery('head').append('<link rel="stylesheet" href="<?php echo esc_url(plugin_dir_url(__DIR__)); ?>assets/dropzone/dropzone.min.css" type="text/css" />');
                             Dropzone.autoDiscover = false;
                             searchDropZoneContainer();
                         });
@@ -427,7 +431,7 @@ EOT;
                             settings = Object.assign(default_settings, settings);
 
                             jQuery(this).dropzone({
-                                url: "<?php  echo get_site_url(); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
+                                url: "<?php echo esc_url(get_site_url()); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
                                 addRemoveLinks: true,
                                 dictDefaultMessage: settings["button_message"],
                                 dictRemoveFile: '<i class="dashicons dashicons-no"></i>',
@@ -468,7 +472,7 @@ EOT;
                                         postData.nonce = window.startklar_dropzone_nonce;
                                     }
 
-                                    jQuery.post("<?php  echo get_site_url(); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
+                                    jQuery.post("<?php echo esc_url(get_site_url()); ?>/wp-admin/admin-ajax.php?action=startklar_drop_zone_upload_process",
                                         postData,
                                         function (data) {
                                         }

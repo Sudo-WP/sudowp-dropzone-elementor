@@ -57,10 +57,13 @@ class StartklarHoneyPotFormField extends \ElementorPro\Modules\Forms\Fields\Fiel
 
         $settings = $form->get_settings_for_display();
         $settings = $settings["form_fields"][$item_index];
+        
+        // SECURITY: Escape output to prevent XSS
+        $custom_id_escaped = esc_attr($item['custom_id']);
 
         echo <<<EOT
         
-        <input type="text" value="" required="required"  name="form_fields[{$item['custom_id']}]"  />
+        <input type="text" value="" required="required"  name="form_fields[{$custom_id_escaped}]"  />
 EOT;
 
 

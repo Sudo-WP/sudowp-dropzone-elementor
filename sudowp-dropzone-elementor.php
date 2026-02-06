@@ -2,8 +2,8 @@
 /**
  * Plugin Name: SudoWP DropZone for Elementor (Security Fork)
  * Plugin URI:  https://github.com/Sudo-WP/sudowp-dropzone-elementor
- * Description: A secure, community-maintained fork of "Startklar Elementor Addons". Patches critical Directory Traversal (CVE-2024-5153) and Arbitrary File Upload vulnerabilities.
- * Version:     1.7.16
+ * Description: A secure, community-maintained fork of "Startklar Elementor Addons". Patches critical Directory Traversal (CVE-2024-5153), Arbitrary File Upload, CSRF, SSRF, and XSS vulnerabilities.
+ * Version:     1.7.17
  * Author:      SudoWP (Maintained by WP Republic)
  * Author URI:  https://sudowp.com
  * Text Domain: sudowp-dropzone-elementor

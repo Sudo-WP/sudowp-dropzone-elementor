@@ -521,7 +521,7 @@ EOT;
                         postData.nonce = window.startklar_country_selector_nonce;
                     }
                     
-                    jQuery.post("<?php echo $site_abs_url; ?>/wp-admin/admin-ajax.php?action=startklar_country_selector_process", postData, function (data) {
+                    jQuery.post("<?php echo esc_url($site_abs_url); ?>/wp-admin/admin-ajax.php?action=startklar_country_selector_process", postData, function (data) {
                         const data_country = data["country"];
                         let country_en = null;
 
