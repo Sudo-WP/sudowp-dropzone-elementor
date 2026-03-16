@@ -4,7 +4,7 @@ Original Authors: WEB-SHOP-HOSTING
 Tags: elementor, dropzone, upload, security-patch, fork, cve-2024-5153, honeypot
 Requires at least: 5.6
 Tested up to: 6.7
-Stable tag: 1.7.17
+Stable tag: 1.7.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,15 @@ No. This is a standalone fork. You must deactivate and delete the original "Star
 The original plugin contains unpatched security vulnerabilities that allow attackers to manipulate files on your server. This fork fixes those issues and blocks executable file uploads.
 
 == Changelog ==
+
+= 1.7.18 (SudoWP Security Audit) =
+* **CRITICAL**: Removed unauthenticated file upload (nopriv AJAX handler).
+* **Security Fix**: File extension allow-list enforcement (whitelist approach).
+* **Security Fix**: Replaced insecure file handling with move_uploaded_file.
+* **Hardening**: Added ABSPATH guards to all PHP files.
+* **Security Fix**: Options sanitization on settings save.
+* **Security Fix**: XSS escaping on all output.
+* **Cleanup**: Added uninstall.php for proper data removal on plugin deletion.
 
 = 1.7.17 (SudoWP Security Hardened Edition) =
 * **Security Enhancement:** Added CSRF protection with nonce verification on all AJAX handlers.
