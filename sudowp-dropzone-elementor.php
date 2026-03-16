@@ -97,7 +97,7 @@ add_action('plugins_loaded', function () {
 
     // Register Ajax action for Dropzone upload
     add_action('wp_ajax_startklar_drop_zone_upload_process', ['StartklarElmentorFormsExtWidgets\startklarDropZoneUploadProcess', 'process']);
-    add_action('wp_ajax_nopriv_startklar_drop_zone_upload_process', ['StartklarElmentorFormsExtWidgets\startklarDropZoneUploadProcess', 'process']);
+    // Removed wp_ajax_nopriv to require authentication for file uploads
 
     // Register Ajax action for Country Selector (SECURITY FIX: Added missing registration)
     add_action('wp_ajax_startklar_country_selector_process', ['StartklarElmentorFormsExtWidgets\startklarCountrySelectorProcess', 'process']);

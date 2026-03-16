@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) { exit; }
+
 namespace StartklarElmentorFormsExtWidgets;
 
 
@@ -255,7 +257,7 @@ class StartklarPluginAdminPage {
     function additionalSettings(){
         $options = get_option('startklar_options');
         if (isset($_POST["startklar_options"]) && is_array($_POST["startklar_options"]) && count($_POST["startklar_options"])){
-            $options = $_POST["startklar_options"];
+            $options = array_map('sanitize_text_field', $_POST["startklar_options"]);
             if (!isset($options['blocking_php_file_upload'])){
                 $options['blocking_php_file_upload'] = "";
             }

@@ -1,4 +1,6 @@
 <?php
+if (!defined('ABSPATH')) { exit; }
+
 namespace StartklarElmentorFormsExtWidgets;
 use  TP_MaxMind\Db\Reader;
 

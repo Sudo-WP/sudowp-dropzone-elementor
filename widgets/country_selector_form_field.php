@@ -202,7 +202,7 @@ class StartklarCountruySelectorFormField extends Field_Base
             if (isset($settings["phone_numb_format"]) && $settings["phone_numb_format"] == "clean_format") {
                 $settings["default_value"] = preg_replace("/\(\+([0-9\s]+?)\)/i", "+$1", $settings["default_value"]);
             }
-            $default_code = " data-default_val = '" . $settings["default_value"] . "' ";
+            $default_code = " data-default_val = '" . esc_attr($settings["default_value"]) . "' ";
         }
 
         $whitelist = array('phone_numb_format', 'display_composition');

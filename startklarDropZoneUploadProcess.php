@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) { exit; }
 
 namespace StartklarElmentorFormsExtWidgets;
 
@@ -7,9 +8,7 @@ class startklarDropZoneUploadProcess
     static function process()
     {
         // SECURITY: Verify nonce for CSRF protection
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'startklar_dropzone_upload')) {
-            wp_die(__('Security check failed.', 'sudowp-dropzone-elementor'), 403);
-        }
+        check_ajax_referer('startklar_dropzone_upload', 'nonce');
 
         $uploads_dir_info = wp_upload_dir();
         $user = wp_get_current_user();
@@ -28,23 +27,11 @@ class startklarDropZoneUploadProcess
              // SECURITY: Sanitize filename before use
              $filename = sanitize_file_name($_FILES['file']['name']);
              
-             // STRICT Deny List: Never allow these extensions, even if WP allows them.
-             $forbidden_exts = ['php', 'php5', 'php7', 'php8', 'phtml', 'phar', 'phps', 'exe', 'sh', 'pl', 'py', 'rb', 'cgi', 'bat', 'cmd', 'com', 'jar', 'jsp', 'asp', 'aspx', 'htaccess', 'svg', 'swf'];
-             
-             if ( in_array($ext, $forbidden_exts) || empty($ext) ) {
-                 die(__("Security Violation: This file type is strictly prohibited.", "sudowp-dropzone-elementor"));
-             }
-             
-             // Check for double extensions (e.g., file.php.jpg) to prevent extension spoofing
-             $filename_parts = explode('.', $filename);
-             if (count($filename_parts) > 2) {
-                 // Check if any part before the last extension is a forbidden extension
-                 array_pop($filename_parts); // Remove the last extension
-                 foreach ($filename_parts as $part) {
-                     if (in_array(strtolower($part), $forbidden_exts)) {
-                         die(__("Security Violation: Multiple extensions with forbidden types detected.", "sudowp-dropzone-elementor"));
-                     }
-                 }
+             // STRICT Allow List: Only allow these safe extensions.
+             $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'zip'];
+
+             if ( empty($ext) || !in_array($ext, $allowed_extensions) ) {
+                 die(__("Security Violation: This file type is not allowed.", "sudowp-dropzone-elementor"));
              }
              
              // Double check MIME type for PHP
@@ -108,10 +95,9 @@ class startklarDropZoneUploadProcess
                     mkdir($target_dir, 0755, true);
                 }
 
-                if (!copy($filepath, $newFilepath)) { // Copy the file, returns false if failed
+                if (!move_uploaded_file($filepath, $newFilepath)) {
                     die(__("Can't move file.", "sudowp-dropzone-elementor"));
                 }
-                unlink($filepath); // Delete the temp file
             }
         }
         die();
